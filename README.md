@@ -1,16 +1,11 @@
 # codenames_client
 
-A new Flutter project.
+This is a repo for a frontend part of codenames project.
 
-## Getting Started
+The backend is here https://github.com/L3odr0id/codenames_server
+## Human Instrumentality Project
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- [x] Basic functionality with card flips and chat
+- [] Custom field size
+- [] Custom teams number and field content
+- [] Custom rules for a game
