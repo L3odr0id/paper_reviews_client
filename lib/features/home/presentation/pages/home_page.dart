@@ -1,14 +1,18 @@
+import 'package:codenames_client/common/navigation_paths.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    print('eh');
     return Scaffold(
       body: Column(
         children: [
           CreateRoomButton(),
+          EnterRoom(),
         ],
       ),
     );
@@ -20,7 +24,16 @@ class CreateRoomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return ElevatedButton(
+      onPressed: () {
+        // final int a = Get.find();
+        // Navigator.pushNamed(context, NavigationPaths.lobbyPath);
+      },
+      child: Text(
+        'Создать комнату',
+        style: TextStyle(color: Colors.black),
+      ),
+    );
   }
 }
 
@@ -38,8 +51,14 @@ class EnterRoom extends StatelessWidget {
           child: TextFormField(),
         ),
         ElevatedButton(
-          onPressed: () {},
-          child: Text('Войти'),
+          onPressed: () {
+            final int a = Get.find();
+            // Navigator.pushNamed(context, NavigationPaths.lobbyPath);
+          },
+          child: Text(
+            'Войти',
+            style: TextStyle(color: Colors.black),
+          ),
         ),
       ],
     );

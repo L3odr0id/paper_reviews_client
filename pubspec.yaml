@@ -37,13 +37,19 @@ dependencies:
   # angel3_client: ^4.2.0
   web_socket_channel: ^2.1.0
   dio: ^4.0.5
-  mobx: ^2.0.6+1
+  flutter_mobx: ^2.0.4
+  json_annotation: ^4.4.0
+  get: ^4.6.1
   # angel3_client: ^4.2.0
   # angel3_websocket: ^4.1.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  
+  build_runner:
+  mobx_codegen: ^2.0.5+2
+  json_serializable: ^6.1.5
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

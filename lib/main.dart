@@ -4,10 +4,13 @@ import 'dart:io';
 
 import 'package:codenames_client/common/navigation_paths.dart';
 import 'package:flutter/material.dart';
+import 'package:get/instance_manager.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
+import 'package:codenames_client/core/setup.dart' as di;
 
 void main() {
+  di.setup();
   runApp(const MyApp());
 }
 
@@ -69,24 +72,24 @@ class _MyHomePageState extends State<MyHomePage> {
     //   app.socket!.sink.close(WebSocketStatus.normalClosure);
     // });
 
-    var channel = WebSocketChannel.connect(Uri.parse('ws://localhost:3000/ws'));
-    // channel.sink.close();
-    // channel.sink.close();
-    channel.stream.listen((message) {
-      print(message);
-      channel.sink.add(
-        json.encode(
-          {
-            'eventName': 'foo',
-            'data': {
-              'data1k': 'data1v',
-              'data2k': 'data2v',
-            }
-          },
-        ),
-      );
-      channel.sink.close();
-    });
+    // var channel = WebSocketChannel.connect(Uri.parse('ws://localhost:3000/ws'));
+    // // channel.sink.close();
+    // // channel.sink.close();
+    // channel.stream.listen((message) {
+    //   print(message);
+    //   channel.sink.add(
+    //     json.encode(
+    //       {
+    //         'eventName': 'foo',
+    //         'data': {
+    //           'data1k': 'data1v',
+    //           'data2k': 'data2v',
+    //         }
+    //       },
+    //     ),
+    //   );
+    //   channel.sink.close();
+    // });
     // channel.sink.add('sent');
   }
 
