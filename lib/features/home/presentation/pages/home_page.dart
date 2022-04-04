@@ -1,4 +1,6 @@
+import 'package:codenames_client/common/api_router.dart';
 import 'package:codenames_client/common/navigation_paths.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -25,7 +27,13 @@ class CreateRoomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {
+      onPressed: () async {
+        final Dio d = Get.find();
+        final String url = Get.find<ApiRouter>().createRoom;
+        print(url);
+        final response = await d.post(url);
+        final d1 = response.data;
+        print(d1);
         // final int a = Get.find();
         // Navigator.pushNamed(context, NavigationPaths.lobbyPath);
       },
