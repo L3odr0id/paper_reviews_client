@@ -1,4 +1,6 @@
 class ApiRouter {
-  final url = 'http://localhost:3000/';
-  String get createRoom => url + 'room/';
+  final url = 'https://reports-backend.herokuapp.com';
+
+  String get reportsAll => url + '/reports';
+  String get reportPost => url + '/report/';
 }
