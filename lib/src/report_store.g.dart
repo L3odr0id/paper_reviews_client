@@ -24,18 +24,14 @@ mixin _$ReportStore on _ReportStore, Store {
     });
   }
 
-  final _$_ReportStoreActionController = ActionController(name: '_ReportStore');
+  final _$fetchReportsAsyncAction = AsyncAction('_ReportStore.fetchReports');
 
   @override
   Future<dynamic> fetchReports() {
-    final _$actionInfo = _$_ReportStoreActionController.startAction(
-        name: '_ReportStore.fetchReports');
-    try {
-      return super.fetchReports();
-    } finally {
-      _$_ReportStoreActionController.endAction(_$actionInfo);
-    }
+    return _$fetchReportsAsyncAction.run(() => super.fetchReports());
   }
+
+  final _$_ReportStoreActionController = ActionController(name: '_ReportStore');
 
   @override
   Future<bool> postReports(Report report) {

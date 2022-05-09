@@ -1,19 +1,23 @@
+import 'package:codenames_client/common/api_router.dart';
 import 'package:codenames_client/core/models/report.dart';
 import 'package:codenames_client/src/report_store.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final store = ReportStore();
+    final store = Provider.of<ReportStore>(context);
     final future = store.reportListFuture;
-    store.fetchReports();
-
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Сервис отзывов'),
+      ),
       body: Observer(
         builder: (_) {
           switch (future.status) {

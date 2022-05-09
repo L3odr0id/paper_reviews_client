@@ -1,4 +1,4 @@
-import 'dart:convert';
+import 'dart:developer';
 
 import 'package:codenames_client/common/api_router.dart';
 import 'package:codenames_client/core/models/report.dart';
@@ -16,6 +16,7 @@ class NetworkService {
       final List<Report> reports = (response.data as List<dynamic>)
           .map<Report>((e) => Report.fromJSON(e as Map<String, dynamic>))
           .toList();
+      log('Got ${reports.length} reports');
       return reports;
     } else {
       throw "Error in $urlReportsAll";
