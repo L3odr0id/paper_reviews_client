@@ -12,6 +12,7 @@ Report _$ReportFromJson(Map<String, dynamic> json) => Report(
       message: json['message'] as String,
       subject: json['subject'] as String,
       title: json['title'] as String,
+      id: json['id'] as String,
     );
 
 Map<String, dynamic> _$ReportToJson(Report instance) => <String, dynamic>{
@@ -19,5 +20,6 @@ Map<String, dynamic> _$ReportToJson(Report instance) => <String, dynamic>{
       'title': instance.title,
       'message': instance.message,
       'author': instance.author,
+      'id': instance.id,
       'date': instance.date.toIso8601String(),
     };

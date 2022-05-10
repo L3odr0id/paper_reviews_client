@@ -8,6 +8,7 @@ class Report {
   final String title;
   final String message;
   final String author;
+  final String id;
   final DateTime date;
 
   const Report({
@@ -16,10 +17,12 @@ class Report {
     required this.message,
     required this.subject,
     required this.title,
+    required this.id,
   });
 
   factory Report.fromJSON(Map<String, dynamic> json) {
     return Report(
+      id: json['id'],
       subject: json['subject'],
       title: json['title'],
       message: json['message'],

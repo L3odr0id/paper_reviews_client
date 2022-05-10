@@ -1,6 +1,6 @@
 import 'package:codenames_client/common/api_router.dart';
 import 'package:codenames_client/core/models/report.dart';
-import 'package:codenames_client/src/report_store.dart';
+import 'package:codenames_client/src/report/report_store.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';

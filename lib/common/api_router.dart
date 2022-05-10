@@ -7,4 +7,8 @@ class ApiRouter {
 
   String get reportsAll => url + '/reports';
   String get reportPost => url + '/report/';
+  String get reportPut => url + '/report/';
+
+  String userGet(String login) => url + '/user/' + login;
+  String get userPost => url + '/user/';
 }

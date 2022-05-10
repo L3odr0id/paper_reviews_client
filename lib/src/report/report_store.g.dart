@@ -31,17 +31,18 @@ mixin _$ReportStore on _ReportStore, Store {
     return _$fetchReportsAsyncAction.run(() => super.fetchReports());
   }
 
-  final _$_ReportStoreActionController = ActionController(name: '_ReportStore');
+  final _$postReportsAsyncAction = AsyncAction('_ReportStore.postReports');
 
   @override
-  Future<bool> postReports(Report report) {
-    final _$actionInfo = _$_ReportStoreActionController.startAction(
-        name: '_ReportStore.postReports');
-    try {
-      return super.postReports(report);
-    } finally {
-      _$_ReportStoreActionController.endAction(_$actionInfo);
-    }
+  Future<String?> postReports(Report report) {
+    return _$postReportsAsyncAction.run(() => super.postReports(report));
+  }
+
+  final _$putReportsAsyncAction = AsyncAction('_ReportStore.putReports');
+
+  @override
+  Future<String?> putReports(Report report) {
+    return _$putReportsAsyncAction.run(() => super.putReports(report));
   }
 
   @override

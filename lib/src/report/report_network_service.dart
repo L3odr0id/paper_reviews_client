@@ -5,7 +5,7 @@ import 'package:codenames_client/core/models/report.dart';
 import 'package:dio/dio.dart';
 import 'package:get/instance_manager.dart';
 
-class NetworkService {
+class ReportNetworkService {
   Future<List<Report>> getReports() async {
     final dio = Get.find<Dio>();
     final urlReportsAll = Get.find<ApiRouter>().reportsAll;
@@ -23,16 +23,29 @@ class NetworkService {
     }
   }
 
-  Future<bool> postReport(Report report) async {
+  Future<Report> postReport(Report report) async {
     final dio = Get.find<Dio>();
     final urlReportsPost = Get.find<ApiRouter>().reportPost;
 
     final response = await dio.post(urlReportsPost, data: report.toJson());
 
     if (response.statusCode == 200) {
-      return true;
+      return response.data;
     } else {
       throw "Error in $urlReportsPost";
+    }
+  }
+
+  Future<Report> putReport(Report report) async {
+    final dio = Get.find<Dio>();
+    final urlReportPut = Get.find<ApiRouter>().reportPut;
+
+    final response = await dio.put(urlReportPut, data: report.toJson());
+
+    if (response.statusCode == 200) {
+      return response.data;
+    } else {
+      throw "Error in $urlReportPut";
     }
   }
 }
