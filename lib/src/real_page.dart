@@ -14,9 +14,12 @@ class RealPage extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Padding(
-          padding: EdgeInsets.only(top: 24, left: 16, right: 16, bottom: 16),
+          padding:
+              const EdgeInsets.only(top: 24, left: 16, right: 16, bottom: 16),
           child: TextField(
             controller: searchController,
+            decoration:
+                const InputDecoration(hintText: 'Введите текст для поиска'),
           ),
         ),
         ReportsList(controller: searchController, reports: reports),

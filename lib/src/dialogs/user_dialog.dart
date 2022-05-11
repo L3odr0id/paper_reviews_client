@@ -16,7 +16,6 @@ class UserDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userStore = Provider.of<UserStore>(context);
-    final future = userStore.user;
 
     return Dialog(
       backgroundColor: Colors.white,
@@ -26,31 +25,29 @@ class UserDialog extends StatelessWidget {
         ),
         child: Observer(
           builder: (context) {
-            if (future.status == FutureStatus.fulfilled) {
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const SizedBox(height: 24),
-                  const Text(
-                    'Авторизация',
-                    style: AppTextStyles.subtitle,
-                  ),
-                  const SizedBox(height: 16),
-                  buildField(loginController, 'Логин'),
-                  buildField(passwordController, 'Пароль'),
-                  const SizedBox(height: 16),
-                  _Submit(
-                    loginController: loginController,
-                    passwordController: passwordController,
-                  ),
-                  const SizedBox(height: 24),
-                ],
-              );
-            } else {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
+            if (userStore.user != null) {
+              WidgetsBinding.instance
+                  ?.addPostFrameCallback((_) => Navigator.pop(context));
             }
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(height: 24),
+                const Text(
+                  'Авторизация',
+                  style: AppTextStyles.subtitle,
+                ),
+                const SizedBox(height: 16),
+                buildField(loginController, 'Логин'),
+                buildField(passwordController, 'Пароль'),
+                const SizedBox(height: 16),
+                _Submit(
+                  loginController: loginController,
+                  passwordController: passwordController,
+                ),
+                const SizedBox(height: 24),
+              ],
+            );
           },
         ),
       ),
@@ -84,7 +81,6 @@ class _SubmitState extends State<_Submit> {
       widget.loginController.text,
       widget.passwordController.text,
     );
-    Navigator.pop(context);
   }
 
   Future<void> signUp(BuildContext context) async {
@@ -93,7 +89,6 @@ class _SubmitState extends State<_Submit> {
       widget.loginController.text,
       widget.passwordController.text,
     );
-    Navigator.pop(context);
   }
 
   @override

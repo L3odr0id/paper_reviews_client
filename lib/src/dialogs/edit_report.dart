@@ -5,12 +5,17 @@ import 'package:codenames_client/src/user/user_store.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class CreateDialog extends StatelessWidget {
-  CreateDialog({Key? key}) : super(key: key);
+class EditDialog extends StatelessWidget {
+  EditDialog({Key? key, required this.report})
+      : titleContorller = TextEditingController(text: report.title),
+        messageController = TextEditingController(text: report.message),
+        subjectController = TextEditingController(text: report.subject),
+        super(key: key);
 
-  final TextEditingController titleContorller = TextEditingController();
-  final TextEditingController messageController = TextEditingController();
-  final TextEditingController subjectController = TextEditingController();
+  final TextEditingController titleContorller;
+  final TextEditingController messageController;
+  final TextEditingController subjectController;
+  final Report report;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +42,7 @@ class CreateDialog extends StatelessWidget {
               subjectController: subjectController,
               titleContorller: titleContorller,
               messageController: messageController,
+              report: report,
             ),
             const SizedBox(height: 24),
           ],
@@ -51,11 +57,13 @@ class _Submit extends StatelessWidget {
     required this.titleContorller,
     required this.messageController,
     required this.subjectController,
+    required this.report,
   });
 
   final TextEditingController titleContorller;
   final TextEditingController messageController;
   final TextEditingController subjectController;
+  final Report report;
 
   @override
   Widget build(BuildContext context) {
@@ -65,27 +73,15 @@ class _Submit extends StatelessWidget {
         final createReport = Provider.of<ReportStore>(context, listen: false);
         final user = Provider.of<UserStore>(context, listen: false).user;
         if (user != null) {
-          await createReport.postReports(
+          await createReport.putReports(
             Report(
               author: user.login,
-              date: DateTime.now(),
+              date: report.date,
               message: messageController.text,
               subject: subjectController.text,
               title: titleContorller.text,
-              id: '-1',
+              id: report.id,
               isAnonymous: false,
-            ),
-          );
-        } else {
-          await createReport.postReports(
-            Report(
-              author: 'Anonymous',
-              date: DateTime.now(),
-              message: messageController.text,
-              subject: subjectController.text,
-              title: titleContorller.text,
-              id: '-1',
-              isAnonymous: true,
             ),
           );
         }

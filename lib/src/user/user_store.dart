@@ -8,17 +8,27 @@ part 'user_store.g.dart';
 
 class UserStore = _UserStore with _$UserStore;
 
+enum Status {
+  initial,
+  loading,
+  loaded,
+}
+
 abstract class _UserStore with Store {
   final UserNetworkService httpClient = UserNetworkService();
 
   @observable
-  ObservableFuture<User?> user = ObservableFuture.value(null);
+  User? user;
+
+  @observable
+  Status status = Status.initial;
 
   @action
   Future getUser(String login, String password) async {
+    status = Status.loading;
     try {
-      user = ObservableFuture(httpClient.getUser(login, password));
-      await user;
+      user = await httpClient.getUser(login, password);
+      status = Status.loaded;
     } catch (e) {
       log(e.toString());
     }
@@ -26,9 +36,10 @@ abstract class _UserStore with Store {
 
   @action
   Future postUser(String login, String password) async {
+    status = Status.loading;
     try {
-      user = ObservableFuture(httpClient.postUser(login, password));
-      await user;
+      user = await httpClient.postUser(login, password);
+      status = Status.loaded;
     } catch (e) {
       log(e.toString());
     }

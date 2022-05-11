@@ -12,15 +12,30 @@ mixin _$UserStore on _UserStore, Store {
   final _$userAtom = Atom(name: '_UserStore.user');
 
   @override
-  ObservableFuture<User?> get user {
+  User? get user {
     _$userAtom.reportRead();
     return super.user;
   }
 
   @override
-  set user(ObservableFuture<User?> value) {
+  set user(User? value) {
     _$userAtom.reportWrite(value, super.user, () {
       super.user = value;
+    });
+  }
+
+  final _$statusAtom = Atom(name: '_UserStore.status');
+
+  @override
+  Status get status {
+    _$statusAtom.reportRead();
+    return super.status;
+  }
+
+  @override
+  set status(Status value) {
+    _$statusAtom.reportWrite(value, super.status, () {
+      super.status = value;
     });
   }
 
@@ -41,7 +56,8 @@ mixin _$UserStore on _UserStore, Store {
   @override
   String toString() {
     return '''
-user: ${user}
+user: ${user},
+status: ${status}
     ''';
   }
 }

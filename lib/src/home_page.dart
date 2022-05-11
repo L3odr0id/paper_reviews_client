@@ -17,7 +17,8 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final reportsStore = Provider.of<ReportStore>(context);
-    final future = reportsStore.reportListFuture;
+    final userStore = Provider.of<UserStore>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Сервис отзывов'),
@@ -34,39 +35,45 @@ class HomePage extends StatelessWidget {
       ),
       body: Observer(
         builder: (context) {
-          switch (future.status) {
-            case FutureStatus.pending:
+          if (userStore.status == Status.loading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          switch (reportsStore.status) {
+            case Status.initial:
+            case Status.loading:
               print(FutureStatus.pending);
               return const Center(
                 child: CircularProgressIndicator(),
               );
 
-            case FutureStatus.rejected:
-              print(FutureStatus.rejected);
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    const Text(
-                      'Failed to load items.',
-                      style: TextStyle(color: Colors.red),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    ElevatedButton(
-                      child: const Text('Tap to retry'),
-                      onPressed: () => reportsStore.fetchReports(),
-                    )
-                  ],
-                ),
-              );
+            // case Status.loading:
+            //   print(FutureStatus.rejected);
+            //   return Center(
+            //     child: Column(
+            //       mainAxisAlignment: MainAxisAlignment.center,
+            //       children: <Widget>[
+            //         const Text(
+            //           'Failed to load items.',
+            //           style: TextStyle(color: Colors.red),
+            //         ),
+            //         const SizedBox(
+            //           height: 10,
+            //         ),
+            //         ElevatedButton(
+            //           child: const Text('Tap to retry'),
+            //           onPressed: () => reportsStore.fetchReports(),
+            //         )
+            //       ],
+            //     ),
+            //   );
 
-            case FutureStatus.fulfilled:
+            case Status.loaded:
               print(FutureStatus.fulfilled);
-              final List<Report> reports = future.result;
 
-              return RealPage(reports: reports);
+              return RealPage(reports: reportsStore.reportList);
 
             default:
               return const Center(
@@ -85,18 +92,19 @@ class UserButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userStore = Provider.of<UserStore>(context);
-    final future = userStore.user;
 
-    return Observer(builder: (context) {
-      if (future.status == FutureStatus.fulfilled) {
-        final user = future.result as User?;
+    return Observer(
+      builder: (context) {
+        final user = userStore.user;
         return user == null
             ? TextButton(
                 style: ButtonStyle(
                     foregroundColor: MaterialStateProperty.all(Colors.white)),
                 onPressed: () {
                   showDialog(
-                      context: context, builder: (context) => UserDialog());
+                    context: context,
+                    builder: (context) => UserDialog(),
+                  );
                 },
                 child: const Text('Войти'),
               )
@@ -109,9 +117,7 @@ class UserButton extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 16),
                 ),
               );
-      } else {
-        return const SizedBox();
-      }
-    });
+      },
+    );
   }
 }

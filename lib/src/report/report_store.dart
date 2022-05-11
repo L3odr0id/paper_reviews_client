@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:codenames_client/core/models/report.dart';
 import 'package:codenames_client/src/report/report_network_service.dart';
+import 'package:codenames_client/src/user/user_store.dart';
 import 'package:mobx/mobx.dart';
 
 part 'report_store.g.dart';
@@ -12,13 +13,17 @@ abstract class _ReportStore with Store {
   final ReportNetworkService httpClient = ReportNetworkService();
 
   @observable
-  ObservableFuture<List<Report>> reportListFuture =
-      ObservableFuture<List<Report>>.value([]);
+  Status status = Status.initial;
+
+  @observable
+  ObservableList<Report> reportList = ObservableList.of([]);
 
   @action
   Future fetchReports() async {
+    status = Status.loading;
     try {
-      reportListFuture = httpClient.getReports().asObservable();
+      reportList = ObservableList.of(await httpClient.getReports());
+      status = Status.loaded;
     } catch (e) {
       log(e.toString());
     }
@@ -26,41 +31,40 @@ abstract class _ReportStore with Store {
 
   @action
   Future<String?> postReports(Report report) async {
-    if (reportListFuture.status == FutureStatus.fulfilled) {
-      final newReport = await httpClient.postReport(report);
-      final newList = List<Report>.from(reportListFuture.result)
-        ..add(newReport);
-      reportListFuture = ObservableFuture<List<Report>>.value(newList);
-    } else {
-      return 'Previous request was not finished';
-    }
-    return null;
+    status = Status.loading;
+
+    final newReport = await httpClient.postReport(report);
+    final newList = List<Report>.from(reportList)..add(newReport);
+    reportList = ObservableList.of(newList);
+
+    status = Status.loaded;
   }
 
   @action
-  Future<String?> putReports(Report report) async {
-    if (reportListFuture.status == FutureStatus.fulfilled) {
-      final newReport = await httpClient.putReport(report);
-      final newList = List<Report>.from(reportListFuture.result)
-        ..removeWhere((element) => element.id == newReport.id)
-        ..add(newReport);
-      reportListFuture = ObservableFuture<List<Report>>.value(newList);
-    } else {
-      return 'Previous request was not finished';
+  Future putReports(Report report) async {
+    status = Status.loading;
+
+    final newReport = await httpClient.putReport(report);
+    final newList = List<Report>.from(reportList);
+    final index = newList.indexWhere((element) => element.id == newReport.id);
+    if (index == -1) {
+      return 'Not found';
     }
-    return null;
+    newList[index] = newReport;
+    reportList = ObservableList.of(newList);
+
+    status = Status.loaded;
   }
 
   @action
-  Future<String?> deleteReports(Report report) async {
-    if (reportListFuture.status == FutureStatus.fulfilled) {
-      final newReport = await httpClient.deleteReport(report);
-      final newList = List<Report>.from(reportListFuture.result)
-        ..removeWhere((element) => element.id == newReport.id);
-      reportListFuture = ObservableFuture<List<Report>>.value(newList);
-    } else {
-      return 'Previous request was not finished';
-    }
-    return null;
+  Future deleteReports(Report report) async {
+    status = Status.loading;
+
+    final newReport = await httpClient.deleteReport(report);
+    final newList = List<Report>.from(reportList);
+    newList.removeWhere((element) => element.id == newReport.id);
+    reportList = ObservableList.of(newList);
+
+    status = Status.loaded;
   }
 }

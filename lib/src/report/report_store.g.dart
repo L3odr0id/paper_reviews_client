@@ -9,18 +9,33 @@ part of 'report_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$ReportStore on _ReportStore, Store {
-  final _$reportListFutureAtom = Atom(name: '_ReportStore.reportListFuture');
+  final _$statusAtom = Atom(name: '_ReportStore.status');
 
   @override
-  ObservableFuture<List<Report>> get reportListFuture {
-    _$reportListFutureAtom.reportRead();
-    return super.reportListFuture;
+  Status get status {
+    _$statusAtom.reportRead();
+    return super.status;
   }
 
   @override
-  set reportListFuture(ObservableFuture<List<Report>> value) {
-    _$reportListFutureAtom.reportWrite(value, super.reportListFuture, () {
-      super.reportListFuture = value;
+  set status(Status value) {
+    _$statusAtom.reportWrite(value, super.status, () {
+      super.status = value;
+    });
+  }
+
+  final _$reportListAtom = Atom(name: '_ReportStore.reportList');
+
+  @override
+  ObservableList<Report> get reportList {
+    _$reportListAtom.reportRead();
+    return super.reportList;
+  }
+
+  @override
+  set reportList(ObservableList<Report> value) {
+    _$reportListAtom.reportWrite(value, super.reportList, () {
+      super.reportList = value;
     });
   }
 
@@ -41,14 +56,22 @@ mixin _$ReportStore on _ReportStore, Store {
   final _$putReportsAsyncAction = AsyncAction('_ReportStore.putReports');
 
   @override
-  Future<String?> putReports(Report report) {
+  Future<dynamic> putReports(Report report) {
     return _$putReportsAsyncAction.run(() => super.putReports(report));
+  }
+
+  final _$deleteReportsAsyncAction = AsyncAction('_ReportStore.deleteReports');
+
+  @override
+  Future<dynamic> deleteReports(Report report) {
+    return _$deleteReportsAsyncAction.run(() => super.deleteReports(report));
   }
 
   @override
   String toString() {
     return '''
-reportListFuture: ${reportListFuture}
+status: ${status},
+reportList: ${reportList}
     ''';
   }
 }
