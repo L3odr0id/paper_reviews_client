@@ -12,14 +12,13 @@ abstract class _UserStore with Store {
   final UserNetworkService httpClient = UserNetworkService();
 
   @observable
-  User? user;
+  ObservableFuture<User?> user = ObservableFuture.value(null);
 
   @action
   Future getUser(String login, String password) async {
     try {
-      if (await httpClient.getUser(login, password)) {
-        user = User(login: login);
-      }
+      user = ObservableFuture(httpClient.getUser(login, password));
+      await user;
     } catch (e) {
       log(e.toString());
     }
@@ -28,9 +27,8 @@ abstract class _UserStore with Store {
   @action
   Future postUser(String login, String password) async {
     try {
-      if (await httpClient.postUser(login, password)) {
-        user = User(login: login);
-      }
+      user = ObservableFuture(httpClient.postUser(login, password));
+      await user;
     } catch (e) {
       log(e.toString());
     }

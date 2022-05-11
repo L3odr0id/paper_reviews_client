@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 
 class UserNetworkService {
-  Future<bool> getUser(String login, String password) async {
+  Future<User> getUser(String login, String password) async {
     final dio = Get.find<Dio>();
     final userUrl = Get.find<ApiRouter>().userGet(login);
 
@@ -14,13 +14,13 @@ class UserNetworkService {
     );
 
     if (response.statusCode == 200) {
-      return response.data['success'];
+      return User(login: login);
     } else {
       throw "Error in $userUrl";
     }
   }
 
-  Future<bool> postUser(String login, String password) async {
+  Future<User> postUser(String login, String password) async {
     final dio = Get.find<Dio>();
     final userUrl = Get.find<ApiRouter>().userPost;
 
@@ -30,7 +30,7 @@ class UserNetworkService {
     });
 
     if (response.statusCode == 200) {
-      return response.data['success'];
+      return User(login: login);
     } else {
       throw "Error in $userUrl";
     }

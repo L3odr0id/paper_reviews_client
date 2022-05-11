@@ -1,7 +1,11 @@
-import 'package:codenames_client/common/api_router.dart';
+import 'package:codenames_client/common/app_text_style.dart';
 import 'package:codenames_client/core/models/report.dart';
+import 'package:codenames_client/core/models/user.dart';
+import 'package:codenames_client/src/dialogs/create_report.dart';
+import 'package:codenames_client/src/dialogs/user_dialog.dart';
+import 'package:codenames_client/src/real_page.dart';
 import 'package:codenames_client/src/report/report_store.dart';
-import 'package:dio/dio.dart';
+import 'package:codenames_client/src/user/user_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
@@ -12,14 +16,24 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final store = Provider.of<ReportStore>(context);
-    final future = store.reportListFuture;
+    final reportsStore = Provider.of<ReportStore>(context);
+    final future = reportsStore.reportListFuture;
     return Scaffold(
       appBar: AppBar(
         title: Text('Сервис отзывов'),
+        actions: const [
+          UserButton(),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
+        onPressed: () => showDialog(
+          context: context,
+          builder: (_) => CreateDialog(),
+        ),
       ),
       body: Observer(
-        builder: (_) {
+        builder: (context) {
           switch (future.status) {
             case FutureStatus.pending:
               print(FutureStatus.pending);
@@ -42,7 +56,7 @@ class HomePage extends StatelessWidget {
                     ),
                     ElevatedButton(
                       child: const Text('Tap to retry'),
-                      onPressed: () => store.fetchReports(),
+                      onPressed: () => reportsStore.fetchReports(),
                     )
                   ],
                 ),
@@ -52,7 +66,7 @@ class HomePage extends StatelessWidget {
               print(FutureStatus.fulfilled);
               final List<Report> reports = future.result;
 
-              return Center(child: Text(reports.length.toString()));
+              return RealPage(reports: reports);
 
             default:
               return const Center(
@@ -62,5 +76,42 @@ class HomePage extends StatelessWidget {
         },
       ),
     );
+  }
+}
+
+class UserButton extends StatelessWidget {
+  const UserButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final userStore = Provider.of<UserStore>(context);
+    final future = userStore.user;
+
+    return Observer(builder: (context) {
+      if (future.status == FutureStatus.fulfilled) {
+        final user = future.result as User?;
+        return user == null
+            ? TextButton(
+                style: ButtonStyle(
+                    foregroundColor: MaterialStateProperty.all(Colors.white)),
+                onPressed: () {
+                  showDialog(
+                      context: context, builder: (context) => UserDialog());
+                },
+                child: const Text('Войти'),
+              )
+            : Center(
+                child: Padding(
+                  child: Text(
+                    user.login,
+                    style: AppTextStyles.subtitle,
+                  ),
+                  padding: const EdgeInsets.only(right: 16),
+                ),
+              );
+      } else {
+        return const SizedBox();
+      }
+    });
   }
 }

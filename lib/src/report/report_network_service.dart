@@ -26,13 +26,18 @@ class ReportNetworkService {
   Future<Report> postReport(Report report) async {
     final dio = Get.find<Dio>();
     final urlReportsPost = Get.find<ApiRouter>().reportPost;
+    try {
+      final response = await dio.post(urlReportsPost, data: report.toJson());
 
-    final response = await dio.post(urlReportsPost, data: report.toJson());
-
-    if (response.statusCode == 200) {
-      return response.data;
-    } else {
-      throw "Error in $urlReportsPost";
+      if (response.statusCode == 200) {
+        return Report.fromJSON(response.data);
+      } else {
+        throw "Error in $urlReportsPost";
+      }
+    } catch (e) {
+      print(e);
+      print(report.toJson());
+      rethrow;
     }
   }
 
@@ -43,9 +48,22 @@ class ReportNetworkService {
     final response = await dio.put(urlReportPut, data: report.toJson());
 
     if (response.statusCode == 200) {
-      return response.data;
+      return Report.fromJSON(response.data);
     } else {
       throw "Error in $urlReportPut";
+    }
+  }
+
+  Future<Report> deleteReport(Report report) async {
+    final dio = Get.find<Dio>();
+    final urlReportDel = Get.find<ApiRouter>().reportDelete(report);
+
+    final response = await dio.delete(urlReportDel);
+
+    if (response.statusCode == 200) {
+      return report;
+    } else {
+      throw "Error in $urlReportDel delete";
     }
   }
 }

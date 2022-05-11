@@ -12,13 +12,13 @@ mixin _$UserStore on _UserStore, Store {
   final _$userAtom = Atom(name: '_UserStore.user');
 
   @override
-  User? get user {
+  ObservableFuture<User?> get user {
     _$userAtom.reportRead();
     return super.user;
   }
 
   @override
-  set user(User? value) {
+  set user(ObservableFuture<User?> value) {
     _$userAtom.reportWrite(value, super.user, () {
       super.user = value;
     });

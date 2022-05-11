@@ -50,4 +50,17 @@ abstract class _ReportStore with Store {
     }
     return null;
   }
+
+  @action
+  Future<String?> deleteReports(Report report) async {
+    if (reportListFuture.status == FutureStatus.fulfilled) {
+      final newReport = await httpClient.deleteReport(report);
+      final newList = List<Report>.from(reportListFuture.result)
+        ..removeWhere((element) => element.id == newReport.id);
+      reportListFuture = ObservableFuture<List<Report>>.value(newList);
+    } else {
+      return 'Previous request was not finished';
+    }
+    return null;
+  }
 }
