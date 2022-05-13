@@ -66,7 +66,7 @@ class _Submit extends StatelessWidget {
         final user = Provider.of<UserStore>(context, listen: false).user;
         if (user != null) {
           await createReport.postReports(
-            Report(
+            Review(
               author: user.login,
               date: DateTime.now(),
               message: messageController.text,
@@ -78,7 +78,7 @@ class _Submit extends StatelessWidget {
           );
         } else {
           await createReport.postReports(
-            Report(
+            Review(
               author: 'Anonymous',
               date: DateTime.now(),
               message: messageController.text,

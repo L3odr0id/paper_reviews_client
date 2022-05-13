@@ -15,7 +15,7 @@ class EditDialog extends StatelessWidget {
   final TextEditingController titleContorller;
   final TextEditingController messageController;
   final TextEditingController subjectController;
-  final Report report;
+  final Review report;
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +63,7 @@ class _Submit extends StatelessWidget {
   final TextEditingController titleContorller;
   final TextEditingController messageController;
   final TextEditingController subjectController;
-  final Report report;
+  final Review report;
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +74,7 @@ class _Submit extends StatelessWidget {
         final user = Provider.of<UserStore>(context, listen: false).user;
         if (user != null) {
           await createReport.putReports(
-            Report(
+            Review(
               author: user.login,
               date: report.date,
               message: messageController.text,

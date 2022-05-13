@@ -27,13 +27,13 @@ mixin _$ReportStore on _ReportStore, Store {
   final _$reportListAtom = Atom(name: '_ReportStore.reportList');
 
   @override
-  ObservableList<Report> get reportList {
+  ObservableList<Review> get reportList {
     _$reportListAtom.reportRead();
     return super.reportList;
   }
 
   @override
-  set reportList(ObservableList<Report> value) {
+  set reportList(ObservableList<Review> value) {
     _$reportListAtom.reportWrite(value, super.reportList, () {
       super.reportList = value;
     });
@@ -49,21 +49,21 @@ mixin _$ReportStore on _ReportStore, Store {
   final _$postReportsAsyncAction = AsyncAction('_ReportStore.postReports');
 
   @override
-  Future<String?> postReports(Report report) {
+  Future<String?> postReports(Review report) {
     return _$postReportsAsyncAction.run(() => super.postReports(report));
   }
 
   final _$putReportsAsyncAction = AsyncAction('_ReportStore.putReports');
 
   @override
-  Future<dynamic> putReports(Report report) {
+  Future<dynamic> putReports(Review report) {
     return _$putReportsAsyncAction.run(() => super.putReports(report));
   }
 
   final _$deleteReportsAsyncAction = AsyncAction('_ReportStore.deleteReports');
 
   @override
-  Future<dynamic> deleteReports(Report report) {
+  Future<dynamic> deleteReports(Review report) {
     return _$deleteReportsAsyncAction.run(() => super.deleteReports(report));
   }
 

@@ -10,7 +10,7 @@ class ReportsList extends StatefulWidget {
   }) : super(key: key);
 
   final TextEditingController controller;
-  final List<Report> reports;
+  final List<Review> reports;
 
   @override
   State<StatefulWidget> createState() => _State();
@@ -27,7 +27,7 @@ class _State extends State<ReportsList> {
 
   @override
   Widget build(BuildContext context) {
-    final sorted = List<Report>.from(widget.reports);
+    final sorted = List<Review>.from(widget.reports);
     final search = widget.controller.text;
     print('BUILD SEARC $search');
     if (search.isNotEmpty) {

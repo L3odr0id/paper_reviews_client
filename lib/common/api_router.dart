@@ -9,7 +9,7 @@ class ApiRouter {
   String get reportsAll => url + '/reports';
   String get reportPost => url + '/report/';
   String get reportPut => url + '/report/';
-  String reportDelete(Report report) => url + '/report/' + report.id;
+  String reportDelete(Review report) => url + '/report/' + report.id;
 
   String userGet(String login) => url + '/user/' + login;
   String get userPost => url + '/user/';

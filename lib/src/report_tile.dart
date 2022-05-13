@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 class ReportTile extends StatelessWidget {
   const ReportTile({Key? key, required this.report}) : super(key: key);
 
-  final Report report;
+  final Review report;
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +60,7 @@ class ReportTile extends StatelessWidget {
 class _Panel extends StatelessWidget {
   const _Panel({required this.report});
 
-  final Report report;
+  final Review report;
 
   @override
   Widget build(BuildContext context) {

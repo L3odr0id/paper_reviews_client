@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class RealPage extends StatelessWidget {
   RealPage({Key? key, required this.reports}) : super(key: key);
 
-  final List<Report> reports;
+  final List<Review> reports;
   final TextEditingController searchController = TextEditingController();
 
   @override

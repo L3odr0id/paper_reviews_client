@@ -1,4 +1,4 @@
-class Report {
+class Review {
   final String subject;
   final String title;
   final String message;
@@ -7,7 +7,7 @@ class Report {
   final bool isAnonymous;
   final DateTime date;
 
-  const Report({
+  const Review({
     required this.author,
     required this.date,
     required this.message,
@@ -17,8 +17,8 @@ class Report {
     required this.isAnonymous,
   });
 
-  factory Report.fromJSON(Map<String, dynamic> json) {
-    return Report(
+  factory Review.fromJSON(Map<String, dynamic> json) {
+    return Review(
       id: json['id'],
       subject: json['subject'],
       title: json['title'],

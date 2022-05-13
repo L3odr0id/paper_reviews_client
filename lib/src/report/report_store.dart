@@ -16,7 +16,7 @@ abstract class _ReportStore with Store {
   Status status = Status.initial;
 
   @observable
-  ObservableList<Report> reportList = ObservableList.of([]);
+  ObservableList<Review> reportList = ObservableList.of([]);
 
   @action
   Future fetchReports() async {
@@ -30,22 +30,22 @@ abstract class _ReportStore with Store {
   }
 
   @action
-  Future<String?> postReports(Report report) async {
+  Future<String?> postReports(Review report) async {
     status = Status.loading;
 
     final newReport = await httpClient.postReport(report);
-    final newList = List<Report>.from(reportList)..add(newReport);
+    final newList = List<Review>.from(reportList)..add(newReport);
     reportList = ObservableList.of(newList);
 
     status = Status.loaded;
   }
 
   @action
-  Future putReports(Report report) async {
+  Future putReports(Review report) async {
     status = Status.loading;
 
     final newReport = await httpClient.putReport(report);
-    final newList = List<Report>.from(reportList);
+    final newList = List<Review>.from(reportList);
     final index = newList.indexWhere((element) => element.id == newReport.id);
     if (index == -1) {
       return 'Not found';
@@ -57,11 +57,11 @@ abstract class _ReportStore with Store {
   }
 
   @action
-  Future deleteReports(Report report) async {
+  Future deleteReports(Review report) async {
     status = Status.loading;
 
     final newReport = await httpClient.deleteReport(report);
-    final newList = List<Report>.from(reportList);
+    final newList = List<Review>.from(reportList);
     newList.removeWhere((element) => element.id == newReport.id);
     reportList = ObservableList.of(newList);
 
